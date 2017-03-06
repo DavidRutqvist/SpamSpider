@@ -4,6 +4,7 @@ Created on 6 Mar 2017
 @author: david.rutqvist
 '''
 import os
+import io
 from pandas import DataFrame as df
 from sklearn.utils import shuffle
 
@@ -55,7 +56,7 @@ class RawDataLoader(object):
                     past_header = False;
                     body = [];
                     
-                    with open(file_path) as f:#We use with statement to ensure proper close of file in a neat way
+                    with io.open(file_path, encoding="latin-1") as f:#We use with statement to ensure proper close of file in a neat way
                         for line in f:
                             if past_header:
                                 body.append(line);

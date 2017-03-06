@@ -3,32 +3,14 @@ Created on 6 Mar 2017
 
 @author: david.rutqvist
 '''
-from Data import RawDataLoader
+from Classifier import SpamClassifier
 
+clf = SpamClassifier();
+clf.set_up();
+print clf.is_spam('Free Viagra call today!');
+print clf.is_spam('I\'m going to attend the Linux users group tomorrow.');
 
-HAM = 'ham'
-SPAM = 'spam'
-
-SOURCES = [
-    ('../data/enron/beck-s',      HAM),
-    ('../data/enron/farmer-d',    HAM),
-    ('../data/enron/kaminski-v',  HAM),
-    ('../data/enron/kitchen-l',   HAM),
-    ('../data/enron/lokay-m',     HAM),
-    ('../data/enron/williams-w3', HAM),
-    ('../data/enron/BG',          SPAM),
-    ('../data/enron/GP',          SPAM),
-    ('../data/enron/SH',          SPAM)
-]
-
-loader = RawDataLoader();
-print "Loading data"
-
-for path, classification in SOURCES:
-    loader.add_set(path, classification);
-loader.load_data();
-print "Done"
-
+print "DONE"
 
 # from Data import DataSet
 # from sklearn.neural_network import MLPClassifier
