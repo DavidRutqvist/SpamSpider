@@ -13,7 +13,7 @@ class DataSet(object):
             Constructor, Dataset is an instance which keeps track of the dataset currently used
         '''
         self.samples = np.zeros((1, 58));#Init samples as one sample with all zeroes
-        print self.samples;
+        self.answers = np.zeros((1, 1));#Init the true answers used during supervised learning
         return;
     
     def loadSpamBase(self):
@@ -27,7 +27,9 @@ class DataSet(object):
             #Opens the actual data file, using read mode only so no disk access errors encounters
             with io.BufferedReader(archive.open("spambase.data", mode="r")) as data:
                 #Parse file into matrix, one row for each line and columns separated by comma
-                self.samples = np.loadtxt(data, delimiter=",");
+                loadedData = np.loadtxt(data, delimiter=",");#The first 56 columns are the inputs, the last column is the answer
+                self.samples = loadedData[:,0:-1];#Everything except last column
+                self.answers = loadedData[:,-1:];#Last column
         print "Import done"
         
     def numSamples(self):
