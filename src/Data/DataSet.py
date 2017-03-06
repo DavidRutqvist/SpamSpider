@@ -6,8 +6,11 @@ Created on 6 Mar 2017
 import zipfile
 import numpy as np
 import io
+import math
       
 class DataSet(object):
+    TEST_PARTITION = 0.25;#Percentage of data used as test
+    
     def __init__(self):
         '''
             Constructor, Dataset is an instance which keeps track of the dataset currently used
@@ -29,8 +32,25 @@ class DataSet(object):
                 #Parse file into matrix, one row for each line and columns separated by comma
                 loadedData = np.loadtxt(data, delimiter=",");#The first 56 columns are the inputs, the last column is the answer
                 self.samples = loadedData[:,0:-1];#Everything except last column
-                self.answers = loadedData[:,-1:];#Last column
+                self.answers = loadedData[:,-1:].ravel();#Last column, ravel changes shape as suggested by sklearn
         print "Import done"
+        
+    def getTrainX(self):
+        return self.samples[:self.__getSplitIndex()];
+    
+    def getTrainY(self):
+        return self.answers[:self.__getSplitIndex()];
+    
+    def getTestX(self):
+        return self.samples[self.__getSplitIndex():];
+    
+    def getTestY(self):
+        return self.answers[self.__getSplitIndex():];
+        
+    def __getSplitIndex(self):
+        num = len(self.answers);
+        index = math.floor(num * (1 - self.TEST_PARTITION));
+        return int(index);
         
     def numSamples(self):
         '''
