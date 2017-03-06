@@ -10,7 +10,7 @@ import math
 from sklearn.utils import shuffle
       
 class DataSet(object):
-    TEST_PARTITION = 0.25;#Percentage of data used as test
+    TEST_PARTITION = 0.10;#Percentage of data used as test
     
     def __init__(self):
         '''
@@ -32,7 +32,7 @@ class DataSet(object):
             with io.BufferedReader(archive.open("spambase.data", mode="r")) as data:
                 #Parse file into matrix, one row for each line and columns separated by comma
                 loadedData = np.loadtxt(data, delimiter=",");#The first 56 columns are the inputs, the last column is the answer
-                loadedData = shuffle(loadedData, random_state=1);#The dataset is ordered such that all spam is in the beggining, this may have some severe effects on tuning, the sklearn shuffle shuffles data in a consistent way
+                loadedData = shuffle(loadedData, random_state=0);#The dataset is ordered such that all spam is in the beggining, this may have some severe effects on tuning, the sklearn shuffle shuffles data in a consistent way
                 self.samples = loadedData[:,0:-1];#Everything except last column
                 self.answers = loadedData[:,-1:].ravel();#Last column, ravel changes shape as suggested by sklearn
         print "Import done"
