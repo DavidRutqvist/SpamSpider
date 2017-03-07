@@ -6,7 +6,7 @@ Created on 6 Mar 2017
 from Classifier import SpamClassifier
 
 clf = SpamClassifier();
-clf.set_up();
+clf.set_up(cross_validate=True);
 print clf.is_spam('Free Viagra call today!');
 print clf.is_spam('I\'m going to attend the Linux users group tomorrow.');
 
