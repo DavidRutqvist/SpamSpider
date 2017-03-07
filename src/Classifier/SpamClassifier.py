@@ -5,6 +5,7 @@ Created on 6 Mar 2017
 '''
 from Data import RawDataLoader
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import KFold
@@ -15,15 +16,20 @@ HAM = 'ham'
 SPAM = 'spam'
 
 SOURCES = [
-    ('../data/enron/beck-s',      HAM),
-    #('../data/enron/farmer-d',    HAM),
-    #('../data/enron/kaminski-v',  HAM),
-    #('../data/enron/kitchen-l',   HAM),
-    #('../data/enron/lokay-m',     HAM),
-    #('../data/enron/williams-w3', HAM),
-    #('../data/enron/BG',          SPAM),
-    #('../data/enron/GP',          SPAM),
-    ('../data/enron/SH',          SPAM)
+    ('../data/enron/beck-s',            HAM),
+#     ('../data/enron/farmer-d',          HAM),
+#     ('../data/enron/kaminski-v',        HAM),
+#     ('../data/enron/kitchen-l',         HAM),
+#     ('../data/enron/lokay-m',           HAM),
+#     ('../data/enron/williams-w3',       HAM),
+#     ('../data/enron/BG',                SPAM),
+#     ('../data/enron/GP',                SPAM),
+     ('../data/enron/SH',                SPAM),
+#     ('../data/spamassassin/easy_ham',   HAM),
+#     ('../data/spamassassin/easy_ham_2', HAM),
+#     ('../data/spamassassin/hard_ham',   HAM),
+#     ('../data/spamassassin/spam',       SPAM),
+#     ('../data/spamassassin/spam2',      SPAM)
 ]
 
 
@@ -39,7 +45,8 @@ class SpamClassifier(object):
         '''
         self.__initialized = False;
         self.__pipeline = Pipeline([
-            ('vectorizer', CountVectorizer()),
+            ('vectorizer', CountVectorizer(ngram_range=(1,2))),
+            #('tfidf_transformer',  TfidfTransformer()),
             ('classifier', MultinomialNB()) ]);
         self.__loader = RawDataLoader();
         
