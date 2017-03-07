@@ -7,7 +7,7 @@ from Data import RawDataLoader
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix, f1_score
 import numpy as np
 
@@ -56,15 +56,15 @@ class SpamClassifier(object):
             #We first do cross-validation on the data to obtain a accurate score
             if cross_validate:
                 print "Cross-validating to determine score"
-                fold = KFold(n=len(self.__loader.data), n_folds=3);
+                fold = KFold(n_splits=3);
                 scores = [];
                 confusion = np.array([[0, 0], [0, 0]]);
-                for train_indices, test_indices in fold:
-                    train_X = self.__loader.data.iloc[train_indices]['text'].values;
-                    train_y = self.__loader.data.iloc[train_indices]['class'].values;
+                for train, test in fold.split(self.__loader.data):
+                    train_X = self.__loader.data.iloc[train]['text'].values;
+                    train_y = self.__loader.data.iloc[train]['class'].values;
                     
-                    test_X = self.__loader.data.iloc[test_indices]['text'].values;
-                    test_y = self.__loader.data.iloc[test_indices]['class'].values;
+                    test_X = self.__loader.data.iloc[test]['text'].values;
+                    test_y = self.__loader.data.iloc[test]['class'].values;
                     
                     self.__pipeline.fit(train_X, train_y);
                     predictions = self.__pipeline.predict(test_X);
