@@ -10,7 +10,9 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.externals import joblib
 import numpy as np
+import os.path
 
 HAM = 'ham'
 SPAM = 'spam'
@@ -49,6 +51,26 @@ class SpamClassifier(object):
             #('tfidf_transformer',  TfidfTransformer()),
             ('classifier', MultinomialNB()) ]);
         self.__loader = RawDataLoader();
+        
+    def save(self):
+        if self.__initialized:
+            print "Saving model"
+            joblib.dump(self.__pipeline, "model.pkl");
+            print "Done"
+        else:
+            raise Exception("Not initialized");
+        
+    def load(self):
+        if not self.__initialized:
+            if os.path.exists("model.pkl"):
+                print "Loading model"
+                self.__pipeline = joblib.load("model.pkl");
+                self.__initialized = True;
+                print "Done"
+            else:
+                raise Warning("No file found, nothing imported nor initialized");
+        else:
+            raise Exception("Already initialized, either load existing classifier or initialize new one not both.");
         
     def set_up(self, cross_validate = False):
         if not self.__initialized:
