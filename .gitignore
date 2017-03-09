@@ -1,2 +1,3 @@
 data/**
 !data/enron/BG.tar.gz
+src/model.pkl
