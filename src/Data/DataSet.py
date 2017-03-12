@@ -10,6 +10,9 @@ import math
 from sklearn.utils import shuffle
       
 class DataSet(object):
+    '''
+    Helper class for dealing with existing data set(s)
+    '''
     TEST_PARTITION = 0.10;#Percentage of data used as test
     
     def __init__(self):
